@@ -26,7 +26,7 @@ background-color:#FAFAFA;
   min-width: 500px;
   min-width: 200px;
   white-space: pre-wrap;
-  color: purple;
+  color: #21618C;
   border-color:purple;
   margin-left: 150px;
   margin-right: 150px;
@@ -41,7 +41,7 @@ background-color:#FAFAFA;
   padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
-  color: PURPLE;
+  color: #21618C;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
@@ -59,7 +59,7 @@ background-color:#FAFAFA;
   min-width: 500px;
   min-width: 200px;
   white-space: pre-wrap;
-  color: purple;
+  color: #21618C;
   border-color:purple;
   margin-left: 150px;
   margin-right: 150px;
@@ -74,7 +74,7 @@ background-color:#FAFAFA;
   padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
-  color: PURPLE;
+  color: #21618C;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
@@ -92,7 +92,7 @@ background-color:#FAFAFA;
   min-width: 500px;
   min-width: 200px;
   white-space: pre-wrap;
-  color: purple;
+  color: #21618C;
   border-color:purple;
   margin-left: 150px;
   margin-right: 150px;
@@ -107,7 +107,7 @@ background-color:#FAFAFA;
   padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
-  color: PURPLE;
+  color: #21618C;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
@@ -471,10 +471,15 @@ if ($var18 -gt '0')
 {$frag9 = $var9|ConvertTo-Html   -Fragment -PreContent '<div class="bodyr"><h2>sa logins</h2><table class="table1">' -PostContent '</table></div>'|Out-String }
 else {$frag9 = $var9|ConvertTo-Html   -Fragment -PreContent '<div class="bodyg"><h2>sa logins</h2><table class="table1">' -PostContent '</table></div>'|Out-String }
 
- 
+$var19 = invoke-sqlcmd -ServerInstance $servername -Query "use msdb; select name, value_in_use from sys.configurations where name = 'Database Mail XPs'" | select-object name, value_in_use
+if ($var19.value_in_use -eq 0)
+{$frag10 = $var19|ConvertTo-Html   -Fragment -PreContent '<div class="bodyr"><h2>Database Mail Feature</h2><table class="table1">' -PostContent '</table></div>'|Out-String }
+else
+{$frag10 = $var19|ConvertTo-Html   -Fragment -PreContent '<div class="bodyg"><h2>Database Mail Feature</h2><table class="table1">' -PostContent '</table></div>'|Out-String }
 
 
-ConvertTo-HTML -head $head -PostContent $frag0, $frag1,$frag2,$frag3, $frag4, $frag5, $frag6, $frag7,$frag8,$frag9 -PreContent "<div class=""body""><h1>SQL Server Hardening Report</h1> </div>"  |Set-Content "C:\temp\test\Combined.html"
+
+ConvertTo-HTML -head $head -PostContent $frag0, $frag1,$frag2,$frag3, $frag4, $frag5, $frag6, $frag7,$frag8,$frag9, $frag10 -PreContent "<div class=""body""><h1>SQL Server Hardening Report</h1> </div>"  |Set-Content "C:\temp\test\Combined.html"
 
 C:\temp\test\Combined.html
 
