@@ -34,10 +34,9 @@ background-color:#D0D3D4;
   -moz-transition: background-color 0.4s ease-out;
   -o-transition: background-color 0.4s ease-out;
   transition: background-color 0.4s ease-out;
+  box-shadow : 5px 5px 20px black;
 }
 .body:hover {
-  text-align: left;
-  font-style: oblique;
   padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
@@ -45,7 +44,7 @@ background-color:#D0D3D4;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
-  border-color: #E5C7E5;
+  border-color: #FCF3CF;
   margin-left: 140px;margin-right: 140px;
   animation-name: example;
   animation-duration: 0.5s;
@@ -67,10 +66,9 @@ background-color:#D0D3D4;
   -moz-transition: background-color 0.4s ease-out;
   -o-transition: background-color 0.4s ease-out;
   transition: background-color 0.4s ease-out;
+  box-shadow : 5px 5px 20px black;
 }
 .bodyr:hover {
-  text-align: left;
-  font-style: oblique;
   padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
@@ -78,7 +76,7 @@ background-color:#D0D3D4;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
-  border-color: #E5C7E5;
+  border-color: #FCF3CF;
   margin-left: 140px;margin-right: 140px;
   animation-name: example;
   animation-duration: 0.5s;
@@ -100,10 +98,9 @@ background-color:#D0D3D4;
   -moz-transition: background-color 0.4s ease-out;
   -o-transition: background-color 0.4s ease-out;
   transition: background-color 0.4s ease-out;
+  box-shadow : 5px 5px 20px black;
 }
 .bodyg:hover {
-  text-align: left;
-  font-style: oblique;
   padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
@@ -111,7 +108,7 @@ background-color:#D0D3D4;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
-  border-color: #E5C7E5;
+  border-color: #FCF3CF;
   margin-left: 140px;margin-right: 140px;
   animation-name: example;
   animation-duration: 0.5s;
@@ -142,10 +139,10 @@ thead:hover, th:hover, td:hover {
   0% {border-color: inherit;}
   100% {border-color: #C7AF4D;}
 }
-.body {background-color: #D0D3D4;}
-.bodyr {background-color: #D0D3D4;}
-.bodyg {background-color: #D0D3D4;}
-.body:hover, .bodyr:hover, .bodyg:hover{background-color: #D0D3D4;}
+.body {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #9F99E7; border-top: 6px solid #9F99E7; padding: 10px 20px;}
+.bodyr {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #F06E6E; border-top: 6px solid #F06E6E; padding: 10px 20px;}
+.bodyg {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #89FEAE; border-top: 6px solid #89FEAE; padding: 10px 20px;}
+.body:hover, .bodyr:hover, .bodyg:hover{background-color: #EFEEEE; border-radius: 15px 50px 30px; }
 </style>"
 $head = $style
 $frag0 = "<div class = ""body""><h2>SQL Servername :</h2>&nbsp" + $servername +"</div>"
@@ -427,7 +424,11 @@ $frag6 = $forceencryption |ConvertTo-Html -Property 'ForceEncryption'  -Fragment
 else {
 $frag6 = $forceencryption |ConvertTo-Html -Property 'ForceEncryption'  -Fragment -PreContent '<div class="bodyg"><h2>Force encryption </h2><table class="table1">' -PostContent '</table><h4>{0 for No, 1 for yes}<br>The value should be 1 for all production servers</h4></div>'|Out-String
 }
+<<<<<<< Updated upstream
 $alldisk = Invoke-Command -ComputerName $hostname {Get-volume }| select driveletter,filesystemlabel, filesystem| Where-Object filesystem -ne 'NTFS'
+=======
+$alldisk = Get-volume | select-object driveletter,filesystemlabel, filesystem| Where-Object filesystem -ne 'NTFS'
+>>>>>>> Stashed changes
 $notntfscount = $alldisk.count
 if ($notntfscount -eq '0'){
 $ntfs_status = "no non-NTFS filesystem exists"|
