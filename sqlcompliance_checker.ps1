@@ -15,19 +15,16 @@ $servername = $hostname+'\'+$serverinstance
 $Style = "<style>
 body {
 
-background-color:#D0D3D4;
+background-color:#FAFAFA;
 
 }
 .body {
   min-height:inherit;
   scroll-behavior: smooth;
   border-width: thin;
-  padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
   white-space: pre-wrap;
-  color: purple;
-  border-color:purple;
   margin-left: 150px;
   margin-right: 150px;
   -webkit-transition: background-color 0.4s ease-out;
@@ -37,10 +34,8 @@ background-color:#D0D3D4;
   box-shadow : 5px 5px 20px black;
 }
 .body:hover {
-  padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
-  color: PURPLE;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
@@ -54,11 +49,9 @@ background-color:#D0D3D4;
   min-height:inherit;
   scroll-behavior: smooth;
   border-width: thin;
-  padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
   white-space: pre-wrap;
-  color: purple;
   border-color:purple;
   margin-left: 150px;
   margin-right: 150px;
@@ -69,10 +62,8 @@ background-color:#D0D3D4;
   box-shadow : 5px 5px 20px black;
 }
 .bodyr:hover {
-  padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
-  color: PURPLE;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
@@ -86,11 +77,9 @@ background-color:#D0D3D4;
   min-height:inherit;
   scroll-behavior: smooth;
   border-width: thin;
-  padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
   white-space: pre-wrap;
-  color: purple;
   border-color:purple;
   margin-left: 150px;
   margin-right: 150px;
@@ -101,10 +90,8 @@ background-color:#D0D3D4;
   box-shadow : 5px 5px 20px black;
 }
 .bodyg:hover {
-  padding-left: 200px;
   min-width: 500px;
   min-width: 200px;
-  color: PURPLE;
   min-height:inherit;
   white-space: pre-wrap;
   scroll-behavior: smooth;
@@ -139,10 +126,10 @@ thead:hover, th:hover, td:hover {
   0% {border-color: inherit;}
   100% {border-color: #C7AF4D;}
 }
-.body {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #9F99E7; border-top: 6px solid #9F99E7; padding: 10px 20px;}
-.bodyr {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #F06E6E; border-top: 6px solid #F06E6E; padding: 10px 20px;}
-.bodyg {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #89FEAE; border-top: 6px solid #89FEAE; padding: 10px 20px;}
-.body:hover, .bodyr:hover, .bodyg:hover{background-color: #EFEEEE; border-radius: 15px 50px 30px; }
+.body {background-color: #303352; border-radius: 15px 50px 30px; border-left: 6px solid #9F99E7; border-top: 6px solid #9F99E7; padding: 10px 20px; color: #EFEEEE;}
+.bodyr {background-color:#303352; border-radius: 15px 50px 30px; border-left: 6px solid #F06E6E; border-top: 6px solid #F06E6E; padding: 10px 20px; color: #EFEEEE;}
+.bodyg {background-color: #303352; border-radius: 15px 50px 30px; border-left: 6px solid #89FEAE; border-top: 6px solid #89FEAE; padding: 10px 20px; color: #EFEEEE;}
+.body:hover, .bodyr:hover, .bodyg:hover{background-color: #21618C; border-radius: 15px 50px 30px; color: #EFEEEE;}
 </style>"
 $head = $style
 $frag0 = "<div class = ""body""><h2>SQL Servername :</h2>&nbsp" + $servername +"</div>"
@@ -424,11 +411,7 @@ $frag6 = $forceencryption |ConvertTo-Html -Property 'ForceEncryption'  -Fragment
 else {
 $frag6 = $forceencryption |ConvertTo-Html -Property 'ForceEncryption'  -Fragment -PreContent '<div class="bodyg"><h2>Force encryption </h2><table class="table1">' -PostContent '</table><h4>{0 for No, 1 for yes}<br>The value should be 1 for all production servers</h4></div>'|Out-String
 }
-<<<<<<< Updated upstream
-$alldisk = Invoke-Command -ComputerName $hostname {Get-volume }| select driveletter,filesystemlabel, filesystem| Where-Object filesystem -ne 'NTFS'
-=======
 $alldisk = Get-volume | select-object driveletter,filesystemlabel, filesystem| Where-Object filesystem -ne 'NTFS'
->>>>>>> Stashed changes
 $notntfscount = $alldisk.count
 if ($notntfscount -eq '0'){
 $ntfs_status = "no non-NTFS filesystem exists"|
