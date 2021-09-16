@@ -31,7 +31,7 @@ background-color:#FAFAFA;
   -moz-transition: background-color 0.4s ease-out;
   -o-transition: background-color 0.4s ease-out;
   transition: background-color 0.4s ease-out;
-  box-shadow : 5px 5px 20px black;
+  box-shadow : -1px 0px 20px 0px black;
 }
 .body:hover {
   min-width: 500px;
@@ -59,7 +59,7 @@ background-color:#FAFAFA;
   -moz-transition: background-color 0.4s ease-out;
   -o-transition: background-color 0.4s ease-out;
   transition: background-color 0.4s ease-out;
-  box-shadow : 5px 5px 20px black;
+  box-shadow : -1px 0px 20px 0px black;
 }
 .bodyr:hover {
   min-width: 500px;
@@ -87,7 +87,7 @@ background-color:#FAFAFA;
   -moz-transition: background-color 0.4s ease-out;
   -o-transition: background-color 0.4s ease-out;
   transition: background-color 0.4s ease-out;
-  box-shadow : 5px 5px 20px black;
+  box-shadow : -1px 0px 20px 0px black;
 }
 .bodyg:hover {
   min-width: 500px;
@@ -126,9 +126,9 @@ thead:hover, th:hover, td:hover {
   0% {border-color: inherit;}
   100% {border-color: #C7AF4D;}
 }
-.body {background-color: #303352; border-radius: 15px 50px 30px; border-left: 6px solid #9F99E7; border-top: 6px solid #9F99E7; padding: 10px 20px; color: #EFEEEE;}
-.bodyr {background-color:#303352; border-radius: 15px 50px 30px; border-left: 6px solid #F06E6E; border-top: 6px solid #F06E6E; padding: 10px 20px; color: #EFEEEE;}
-.bodyg {background-color: #303352; border-radius: 15px 50px 30px; border-left: 6px solid #89FEAE; border-top: 6px solid #89FEAE; padding: 10px 20px; color: #EFEEEE;}
+.body {background-color: #303352; border-radius: 15px 50px 30px; border-left: 6px solid #9F99E7; border-top: 6px solid #9F99E7; padding: 10px 20px; color: #EFEEEE; font-family: 'Courier New', monospace;}
+.bodyr {background-color:#303352; border-radius: 15px 50px 30px; border-left: 6px solid #F06E6E; border-top: 6px solid #F06E6E; padding: 10px 20px; color: #EFEEEE; font-family: 'Courier New', monospace;}
+.bodyg {background-color: #303352; border-radius: 15px 50px 30px; border-left: 6px solid #89FEAE; border-top: 6px solid #89FEAE; padding: 10px 20px; color: #EFEEEE; font-family: 'Courier New', monospace;}
 .body:hover, .bodyr:hover, .bodyg:hover{background-color: #21618C; border-radius: 15px 50px 30px; color: #EFEEEE;}
 </style>"
 $head = $style
