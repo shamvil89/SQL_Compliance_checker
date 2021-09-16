@@ -1,8 +1,8 @@
 #################################################################################  
 ## SQL Service Status Report in HTML  using Powershell 
 ## Created by Shamvil Hasan Kazmi 
-## Date : 20 Jan 2021  
-## Version : 1.2  
+## Date : 16 September 2021  
+## Version : 1.3  
 ## Below code will generate an HTML output which will give the status of all SQL service in the HTML format.The script you have create the 
 ## folder "test" in C Drive or give the path in the last line of code where you want to generate the file.
 #################################################################################
@@ -15,7 +15,7 @@ $servername = $hostname+'\'+$serverinstance
 $Style = "<style>
 body {
 
-background-color:#D0D3D4;
+background-color:#FAFAFA;
 
 }
 .body {
@@ -178,16 +178,16 @@ select 'red' as overall
 else
 select 'green' as overall" 
 
-$var2 = $var1 | Select-Object overall |foreach {$_.overall} 
+$var2 = $var1 | Select-Object overall |foreach-object {$_.overall} 
 
 
 
 if (  $var2 -eq "red" )
 {
-$frag1 = $var1 | select result  |ConvertTo-Html -Property 'result'   -Fragment -PreContent '<div class="bodyr"><h2>Logins that need to be added or removed</h2><table class="table1">' -PostContent '</table></div>'|Out-String
+$frag1 = $var1 | select-object result  |ConvertTo-Html -Property 'result'   -Fragment -PreContent '<div class="bodyr"><h2>Logins that need to be added or removed</h2><table class="table1">' -PostContent '</table></div>'|Out-String
 }
 else{
-$frag1 = $var1 | select result  |ConvertTo-Html -Property 'result'   -Fragment -PreContent '<div class="bodyg"><h2>Logins that need to be added or removed</h2><table class="table1">' -PostContent '</table></div>'|Out-String
+$frag1 = $var1 | select-object result  |ConvertTo-Html -Property 'result'   -Fragment -PreContent '<div class="bodyg"><h2>Logins that need to be added or removed</h2><table class="table1">' -PostContent '</table></div>'|Out-String
 }
 $var3 = invoke-sqlcmd -ServerInstance $servername -Query "declare @flag1 int
 if (select count(*) from sys.database_files where physical_name like 'C%') <> 0
@@ -201,18 +201,18 @@ set @flag1 =0
 select '-' as Datafiles, 'no db files in c drive found' as comment, @flag1 as Flag
 end " 
 
-$var4 = $var3 |select Flag |foreach{$_.flag} 
+$var4 = $var3 |select-object Flag |ForEach-Object{$_.flag} 
 
 if ($var4 -gt 0)
 {
-$frag2 = $var3| select Datafiles, comment |ConvertTo-Html -fragment -precontent '<div class="bodyr"><h2>DB File locations </H2><table class="table1">' -PostContent '</table></div>' |Out-String
+$frag2 = $var3| select-object Datafiles, comment |ConvertTo-Html -fragment -precontent '<div class="bodyr"><h2>DB File locations </H2><table class="table1">' -PostContent '</table></div>' |Out-String
 }
 else
 {
-$frag2 = $var3| select Datafiles, comment |ConvertTo-Html -fragment -precontent '<div class="bodyg"><h2>DB File locations </H2><table class="table1">' -PostContent '</table></div>' |Out-String
+$frag2 = $var3| select-object Datafiles, comment |ConvertTo-Html -fragment -precontent '<div class="bodyg"><h2>DB File locations </H2><table class="table1">' -PostContent '</table></div>' |Out-String
 }
 
-$var5 = Get-WmiObject win32_service -ComputerName $hostname | Where-Object {$_.name -like "*SQL*" -and $_.name -notlike "*writer*"  -and $_.Startname -like "*LocalSystem*"} |Select   name, @{N='Service Account';E={$_.Startname}} , startmode, state  
+$var5 = Get-WmiObject win32_service -ComputerName $hostname | Where-Object {$_.name -like "*SQL*" -and $_.name -notlike "*writer*"  -and $_.Startname -like "*LocalSystem*"} |select-object   name, @{N='Service Account';E={$_.Startname}} , startmode, state  
 
 $var6 = 'All SQL services run with network account'|
     ForEach-Object {Add-Member -InputObject $_ -Type NoteProperty -Name Filesystem_Status -Value $_;$_}
@@ -225,7 +225,7 @@ $frag3 = $var5 |ConvertTo-Html -fragment -precontent '<div class="bodyr"><h2>SQL
 }
 
 
-$sas = Get-WmiObject win32_service  -ComputerName $hostname |Where-Object {$_.name -like "*SQL*"  -and $_.Description -like "*Provides storage, processing and controlled access of data, and rapid transaction processing*" -or $_.description -like "*Executes jobs, monitors SQL Server, fires alerts, and allows automation of some administrative tasks*"}|Select   @{N='Service Account';E={$_.Startname}} 
+$sas = Get-WmiObject win32_service  -ComputerName $hostname |Where-Object {$_.name -like "*SQL*"  -and $_.Description -like "*Provides storage, processing and controlled access of data, and rapid transaction processing*" -or $_.description -like "*Executes jobs, monitors SQL Server, fires alerts, and allows automation of some administrative tasks*"}|select-object   @{N='Service Account';E={$_.Startname}} 
 function get-rightsonwin  {
 #requires -version 2
 
@@ -342,10 +342,10 @@ Remove-Item $TemplateFilename,$LogFilename -ErrorAction SilentlyContinue #|-Obje
   
  }
  foreach ($serviceaccount in $sas) {
-$array1 = get-rightsonwin |select Privilege, PrivilegeName, Principal | Where-Object Principal -eq  $serviceaccount.'Service Account'
+$array1 = get-rightsonwin |select-object Privilege, PrivilegeName, Principal | Where-Object Principal -eq  $serviceaccount.'Service Account'
  }
 
- $array2 = get-rightsonwin |select Privilege, PrivilegeName, Principal | Where-Object Principal -eq 'everyone'
+ $array2 = get-rightsonwin |select-object Privilege, PrivilegeName, Principal | Where-Object Principal -eq 'everyone'
 
 if (($array1.count + $array2.count) -gt 0){
 
@@ -395,7 +395,7 @@ EXEC   xp_instance_regread
 @value      = @portNo2 OUTPUT
 
 select convert(int, ISNULL(@portno1, 0) ) + ISNULL(convert(int, @portno2 ), 0) as port
-" |select port 
+" |select-object port 
 
 
 if ($var8.port -in '1433','1434','1435','1436')
@@ -420,22 +420,22 @@ N'SOFTWARE\Microsoft\Microsoft SQL Server\MSSQLServer\SuperSocketNetLib',
 
       @value = @getValue OUTPUT
 
-SELECT @getValue as ForceEncryption" |select ForceEncryption
+SELECT @getValue as ForceEncryption" |select-object ForceEncryption
 if ($forceencryption.ForceEncryption -eq '0'){
 $frag6 = $forceencryption |ConvertTo-Html -Property 'ForceEncryption'  -Fragment -PreContent '<div class="bodyr"><h2>Force encryption </h2><table class="table1">' -PostContent '</table><h4>{0 for No, 1 for yes}<br>The value should be 1 for all production servers</h4></div>'|Out-String
 }
 else {
 $frag6 = $forceencryption |ConvertTo-Html -Property 'ForceEncryption'  -Fragment -PreContent '<div class="bodyg"><h2>Force encryption </h2><table class="table1">' -PostContent '</table><h4>{0 for No, 1 for yes}<br>The value should be 1 for all production servers</h4></div>'|Out-String
 }
-$alldisk = Invoke-Command -ComputerName $hostname {Get-volume }| select driveletter,filesystemlabel, filesystem| Where-Object filesystem -ne 'NTFS'
+$alldisk = Invoke-Command -ComputerName $hostname {Get-volume }| select-object driveletter,filesystemlabel, filesystem| Where-Object filesystem -ne 'NTFS'
 $notntfscount = $alldisk.count
 if ($notntfscount -eq '0'){
 $ntfs_status = "no non-NTFS filesystem exists"|
     ForEach-Object {Add-Member -InputObject $_ -Type NoteProperty -Name Filesystem_Status -Value $_; $_}
-    $frag7 = $ntfs_status |select Filesystem_status|ConvertTo-Html -Property Filesystem_status -Fragment -PreContent '<div class="bodyg"><h2>FileSystem Format</h2>' -PostContent '</div>'|Out-String 
+    $frag7 = $ntfs_status |select-object Filesystem_status|ConvertTo-Html -Property Filesystem_status -Fragment -PreContent '<div class="bodyg"><h2>FileSystem Format</h2>' -PostContent '</div>'|Out-String 
 }
 else {$ntfs_status=$alldisk
-$frag7 = $ntfs_status |select driveletter, filesystemlabel, filesystem|ConvertTo-Html  -Fragment -PreContent '<div class="bodyr"><h2>FileSystem Format</h2>' -PostContent '</div>'|Out-String}
+$frag7 = $ntfs_status |select-object driveletter, filesystemlabel, filesystem|ConvertTo-Html  -Fragment -PreContent '<div class="bodyr"><h2>FileSystem Format</h2>' -PostContent '</div>'|Out-String}
 
 
 $frag8 = invoke-sqlcmd -ServerInstance $servername -Query "DECLARE @AuthenticationMode INT  
@@ -446,18 +446,18 @@ SELECT CASE @AuthenticationMode
 WHEN 1 THEN 'Windows Authentication'   
 WHEN 2 THEN 'Windows and SQL Server Authentication'   
 ELSE 'Unknown'  
-END as [Authentication Mode] "|select "authentication mode"  |convertto-html -property 'Authentication Mode' -fragment -PreContent '<div class="body"><h2>SQL server authentication Mode</h2>' -PostContent '</div>'|out-string
+END as [Authentication Mode] "|select-object "authentication mode"  |convertto-html -property 'Authentication Mode' -fragment -PreContent '<div class="body"><h2>SQL server authentication Mode</h2>' -PostContent '</div>'|out-string
 
 
 $var9 = invoke-sqlcmd -ServerInstance $servername -Query "if ((select count(name) from sys.sql_logins where name ='sa')=1)
 select 'rename sa account' as findings, name,is_disabled,is_policy_checked from sys.sql_logins where name ='sa'
 else
-select 'sa name doesnot exist' as findings,name,is_disabled,is_policy_checked from sys.sql_logins where name ='sa'" | select findings, name, is_disabled, is_policy_checked 
+select 'sa name doesnot exist' as findings,name,is_disabled,is_policy_checked from sys.sql_logins where name ='sa'" | select-object findings, name, is_disabled, is_policy_checked 
 
-$var10 = $var9 |select findings
-$var11 = $var9 |select name
-$var12 = $var9 |select is_disabled  
-$var13 = $var9 |select is_policy_checked
+$var10 = $var9 |select-object findings
+$var11 = $var9 |select-object name
+$var12 = $var9 |select-object is_disabled  
+$var13 = $var9 |select-object is_policy_checked
 
 if ($var10.findings -eq 'rename sa account') {$var14=1}else {$var14=0}
 if ($var11.name -eq 'sa') {$var15=1} else {$var15=0}
