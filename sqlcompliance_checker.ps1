@@ -142,10 +142,10 @@ thead:hover, th:hover, td:hover {
   0% {border-color: inherit;}
   100% {border-color: #C7AF4D;}
 }
-.body {background-color: #D0D3D4;}
-.bodyr {background-color: #D0D3D4;}
-.bodyg {background-color: #D0D3D4;}
-.body:hover, .bodyr:hover, .bodyg:hover{background-color: #D0D3D4;}
+.body {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #9F99E7;}
+.bodyr {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #F06E6E;}
+.bodyg {background-color: #EFEEEE; border-radius: 15px 50px 30px; border-left: 6px solid #89FEAE;}
+.body:hover, .bodyr:hover, .bodyg:hover{background-color: #EFEEEE; border-radius: 15px 50px 30px;}
 </style>"
 $head = $style
 $frag0 = "<div class = ""body""><h2>SQL Servername :</h2>&nbsp" + $servername +"</div>"
